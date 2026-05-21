@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>القافلة الطبية – كفر عطالله سلامة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --blue-dark:   #0B3C6E;
+      --blue-mid:    #1565C0;
+      --blue-light:  #42A5F5;
+      --green-soft:  #43A87B;
+      --green-light: #C8F0DC;
+      --white:       #FFFFFF;
+      --off-white:   #F4F8FF;
+      --gray-100:    #EEF2F7;
+      --gray-400:    #9AABB8;
+      --gray-700:    #3D5263;
+      --shadow-card: 0 8px 32px rgba(11,60,110,0.10);
+      --shadow-btn:  0 4px 18px rgba(21,101,192,0.35);
+      --radius-lg:   18px;
+      --radius-sm:   10px;
+      --font-main:   'Cairo', 'Tajawal', sans-serif;
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-main);
+      background: var(--off-white);
+      color: var(--gray-700);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 60%, #1E88E5 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 60px 20px 100px;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 20% 80%, rgba(67,168,123,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 35% at 80% 20%, rgba(66,165,245,0.22) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50px;
+      padding: 6px 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 22px;
+      backdrop-filter: blur(6px);
+      animation: fadeDown 0.7s ease both;
+    }
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      background: #69F0AE;
+      border-radius: 50%;
+      animation: pulse 1.6s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform: scale(1); }
+      50%      { opacity:0.5; transform: scale(1.4); }
+    }
+    .hero h1 {
+      font-size: clamp(1.7rem, 5vw, 2.8rem);
+      font-weight: 900;
+      line-height: 1.35;
+      margin-bottom: 14px;
+      animation: fadeDown 0.8s 0.1s ease both;
+    }
+    .hero h1 span { color: #69F0AE; }
+    .hero p.sub {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      font-weight: 400;
+      opacity: 0.88;
+      max-width: 560px;
+      margin: 0 auto 30px;
+      animation: fadeDown 0.8s 0.2s ease both;
+    }
+
+    /* === ALERT BANNER === */
+    .alert-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,80,80,0.15);
+      border: 1.5px solid rgba(255,100,100,0.45);
+      color: #FFD0D0;
+      border-radius: 50px;
+      padding: 8px 22px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      animation: fadeDown 0.8s 0.35s ease both;
+    }
+    .alert-banner .icon { font-size: 1.1rem; }
+
+    /* === COUNTDOWN === */
+    .countdown-wrap {
+      margin-top: 38px;
+      animation: fadeDown 0.8s 0.45s ease both;
+    }
+    .countdown-wrap p { font-size: 0.82rem; opacity: 0.7; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .cd-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 72px;
+    }
+    .cd-num {
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.22);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 1.9rem;
+      font-weight: 900;
+      line-height: 1;
+      width: 72px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      transition: background 0.3s;
+    }
+    .cd-label {
+      font-size: 0.72rem;
+      opacity: 0.7;
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== WAVE DIVIDER ===== */
+    .wave { display: block; margin-top: -1px; }
+
+    /* ===== SPECIALTIES STRIP ===== */
+    .specs-section {
+      padding: 50px 20px 10px;
+      text-align: center;
+    }
+    .section-label {
+      display: inline-block;
+      background: var(--green-light);
+      color: var(--green-soft);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 16px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+      font-weight: 800;
+      color: var(--blue-dark);
+      margin-bottom: 32px;
+    }
+    .specs-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .spec-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      border: 1.5px solid var(--gray-100);
+      border-radius: 50px;
+      padding: 9px 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--blue-dark);
+      box-shadow: 0 2px 10px rgba(11,60,110,0.07);
+      transition: all 0.22s;
+      cursor: default;
+    }
+    .spec-chip:hover {
+      background: var(--blue-mid);
+      color: var(--white);
+      border-color: var(--blue-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(21,101,192,0.22);
+    }
+    .spec-chip .spec-icon { font-size: 1.1rem; }
+
+    /* ===== FORM SECTION ===== */
+    .form-section {
+      padding: 50px 20px 70px;
+      display: flex;
+      justify-content: center;
+    }
+    .form-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 42px 38px;
+      width: 100%;
+      max-width: 520px;
+      border: 1px solid rgba(11,60,110,0.07);
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    @media (max-width: 560px) {
+      .form-card { padding: 28px 20px; }
+    }
+    .form-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .form-icon {
+      width: 62px; height: 62px;
+      background: linear-gradient(135deg, var(--blue-mid), var(--blue-light));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem;
+      margin: 0 auto 14px;
+      box-shadow: 0 6px 20px rgba(21,101,192,0.28);
+    }
+    .form-header h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--blue-dark);
+      margin-bottom: 6px;
+    }
+    .form-header p { font-size: 0.88rem; color: var(--gray-400); }
+
+    /* --- fields --- */
+    .field { margin-bottom: 22px; }
+    .field label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-bottom: 8px;
+    }
+    .field label .req { color: #E53935; margin-right: 2px; }
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.8px solid var(--gray-100);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-main);
+      font-size: 0.95rem;
+      color: var(--gray-700);
+      background: var(--off-white);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .field input::placeholder { color: var(--gray-400); }
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--blue-light);
+      box-shadow: 0 0 0 4px rgba(66,165,245,0.15);
+      background: var(--white);
+    }
+    .field.error input,
+    .field.error select {
+      border-color: #E53935;
+      box-shadow: 0 0 0 4px rgba(229,57,53,0.10);
+    }
+    .field-err {
+      display: none;
+      font-size: 0.78rem;
+      color: #E53935;
+      margin-top: 5px;
+      font-weight: 600;
+    }
+    .field.error .field-err { display: block; }
+
+    /* select arrow */
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '▾';
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--blue-mid);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+
+    /* --- submit btn --- */
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--blue-mid) 0%, #1E88E5 100%);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-main);
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: var(--shadow-btn);
+      transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
+      letter-spacing: 0.3px;
+      margin-top: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-submit:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(21,101,192,0.42);
+    }
+    .btn-submit:active:not(:disabled) { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+
+    /* ripple */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      transform: scale(0);
+      animation: rippleAnim 0.55s linear;
+      pointer-events: none;
+    }
+    @keyframes rippleAnim {
+      to { transform: scale(4); opacity: 0; }
+    }
+
+    /* loading spinner inside button */
+    .btn-spinner {
+      display: none;
+      width: 18px; height: 18px;
+      border: 3px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto;
+    }
+    .btn-submit.loading .btn-text { display: none; }
+    .btn-submit.loading .btn-spinner { display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== SUCCESS MESSAGE ===== */
+    .success-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px 10px 10px;
+      animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    .success-box.show { display: flex; }
+    @keyframes popIn {
+      from { opacity:0; transform: scale(0.7); }
+      to   { opacity:1; transform: scale(1); }
+    }
+    .success-icon {
+      width: 78px; height: 78px;
+      background: linear-gradient(135deg, var(--green-soft), #2ECC71);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 28px rgba(67,168,123,0.35);
+    }
+    .success-box h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--blue-dark);
+      margin-bottom: 10px;
+    }
+    .success-box p {
+      font-size: 0.92rem;
+      color: var(--gray-400);
+      max-width: 320px;
+      line-height: 1.6;
+    }
+    .success-box .reg-num {
+      margin-top: 18px;
+      background: var(--off-white);
+      border: 1.5px dashed var(--blue-light);
+      border-radius: 10px;
+      padding: 10px 24px;
+      font-size: 0.85rem;
+      color: var(--blue-mid);
+      font-weight: 700;
+    }
+    .btn-again {
+      margin-top: 22px;
+      padding: 10px 30px;
+      background: var(--off-white);
+      border: 1.8px solid var(--blue-light);
+      border-radius: 50px;
+      color: var(--blue-mid);
+      font-family: var(--font-main);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-again:hover { background: var(--gray-100); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--blue-dark);
+      color: rgba(255,255,255,0.65);
+      text-align: center;
+      padding: 22px 20px;
+      font-size: 0.82rem;
+    }
+    footer strong { color: rgba(255,255,255,0.9); }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeDown {
+      from { opacity:0; transform: translateY(-18px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(22px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ====== HERO ====== -->
+<header class="hero">
+  <div class="hero-badge">
+    <span class="dot"></span>
+    التسجيل مفتوح الآن
+  </div>
+
+  <h1>🏥 حملة طبية شاملة<br><span>فرع كفر عطالله سلامة</span></h1>
+  <p class="sub">
+    نقدم خدمات طبية مجانية في 13 تخصصًا — الجمعة القادمة. سجّل الآن واحجز دورك!
+  </p>
+
+  <div class="alert-banner">
+    <span class="icon">⚠️</span>
+    الأماكن محدودة — لا تفوّت الفرصة!
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="countdown-wrap">
+    <p>الوقت المتبقي على القافلة</p>
+    <div class="countdown">
+      <div class="cd-unit"><div class="cd-num" id="cd-days">--</div><div class="cd-label">أيام</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-hours">--</div><div class="cd-label">ساعات</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-mins">--</div><div class="cd-label">دقائق</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-secs">--</div><div class="cd-label">ثواني</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- Wave -->
+<svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block;background:var(--off-white);">
+  <path fill="#1565C0" d="M0,30 C360,70 1080,-10 1440,30 L1440,0 L0,0 Z"/>
+</svg>
+
+<!-- ====== SPECIALTIES ====== -->
+<section class="specs-section">
+  <span class="section-label">التخصصات الطبية</span>
+  <h2 class="section-title">13 تخصص طبي في مكان واحد</h2>
+  <div class="specs-grid">
+    <div class="spec-chip"><span class="spec-icon">🫀</span> باطنة</div>
+    <div class="spec-chip"><span class="spec-icon">👶</span> أطفال</div>
+    <div class="spec-chip"><span class="spec-icon">🦴</span> عظام</div>
+    <div class="spec-chip"><span class="spec-icon">✨</span> جلدية</div>
+    <div class="spec-chip"><span class="spec-icon">👂</span> أنف وأذن وحنجرة</div>
+    <div class="spec-chip"><span class="spec-icon">👁️</span> رمد</div>
+    <div class="spec-chip"><span class="spec-icon">🧠</span> مخ وأعصاب</div>
+    <div class="spec-chip"><span class="spec-icon">❤️</span> قلب</div>
+    <div class="spec-chip"><span class="spec-icon">🫁</span> صدر</div>
+    <div class="spec-chip"><span class="spec-icon">🦷</span> أسنان</div>
+    <div class="spec-chip"><span class="spec-icon">🤰</span> نسا وتوليد</div>
+    <div class="spec-chip"><span class="spec-icon">💧</span> مسالك بولية</div>
+    <div class="spec-chip"><span class="spec-icon">🏃</span> علاج طبيعي</div>
+  </div>
+</section>
+
+<!-- ====== FORM ====== -->
+<section class="form-section">
+  <div class="form-card">
+
+    <!-- ---- FORM ---- -->
+    <div id="form-wrapper">
+      <div class="form-header">
+        <div class="form-icon">📋</div>
+        <h2>سجّل الآن</h2>
+        <p>أدخل بياناتك لحجز دورك في القافلة</p>
+      </div>
+
+      <!-- Full Name -->
+      <div class="field" id="field-name">
+        <label for="inp-name"><span class="req">*</span> الاسم رباعي</label>
+        <input type="text" id="inp-name" placeholder="مثال: محمد أحمد علي حسن" maxlength="80" autocomplete="name" />
+        <span class="field-err" id="err-name">يرجى إدخال الاسم رباعي (4 كلمات على الأقل)</span>
+      </div>
+
+      <!-- Phone -->
+      <div class="field" id="field-phone">
+        <label for="inp-phone"><span class="req">*</span> رقم الهاتف</label>
+        <input type="tel" id="inp-phone" placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric" />
+        <span class="field-err" id="err-phone">يرجى إدخال رقم هاتف صحيح (11 رقمًا)</span>
+      </div>
+
+      <!-- Specialty -->
+      <div class="field" id="field-spec">
+        <label for="inp-spec"><span class="req">*</span> التخصص الطبي</label>
+        <div class="select-wrap">
+          <select id="inp-spec">
+            <option value="">— اختر التخصص —</option>
+            <option value="باطنة">🫀 باطنة</option>
+            <option value="أطفال">👶 أطفال</option>
+            <option value="عظام">🦴 عظام</option>
+            <option value="جلدية">✨ جلدية</option>
+            <option value="أنف وأذن وحنجرة">👂 أنف وأذن وحنجرة</option>
+            <option value="رمد">👁️ رمد</option>
+            <option value="مخ وأعصاب">🧠 مخ وأعصاب</option>
+            <option value="قلب">❤️ قلب</option>
+            <option value="صدر">🫁 صدر</option>
+            <option value="أسنان">🦷 أسنان</option>
+            <option value="نسا وتوليد">🤰 نسا وتوليد</option>
+            <option value="مسالك بولية">💧 مسالك بولية</option>
+            <option value="علاج طبيعي">🏃 علاج طبيعي</option>
+          </select>
+        </div>
+        <span class="field-err" id="err-spec">يرجى اختيار التخصص الطبي</span>
+      </div>
+
+      <button class="btn-submit" id="btn-submit" type="button" onclick="handleSubmit(event)">
+        <span class="btn-text">✅ تسجيل الآن</span>
+        <span class="btn-spinner"></span>
+      </button>
+    </div>
+
+    <!-- ---- SUCCESS ---- -->
+    <div class="success-box" id="success-box">
+      <div class="success-icon">✅</div>
+      <h3>تم التسجيل بنجاح!</h3>
+      <p>لقد تم تسجيلك في القافلة الطبية بكفر عطالله سلامة.<br>يُرجى الحضور مبكرًا يوم الجمعة.</p>
+      <div class="reg-num" id="reg-num">رقم تسجيلك: #---</div>
+      <button class="btn-again" onclick="resetForm()">تسجيل شخص آخر</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+  <strong>القافلة الطبية — كفر عطالله سلامة</strong> &nbsp;|&nbsp; الجمعة القادمة &nbsp;|&nbsp; جميع الخدمات مجانية
+</footer>
+
+<!-- ====== SCRIPT ====== -->
+<script>
+  /* ==========================================
+   * CONFIG — عدّل هذا الرابط بعد إعداد Google Apps Script
+   * ==========================================
+   * 1. افتح Google Sheets وأنشئ ورقة جديدة
+   * 2. اذهب إلى Extensions → Apps Script
+   * 3. ألصق الكود الموجود في التعليق أدناه
+   * 4. انشر السكريبت كـ Web App وانسخ الرابط هنا
+   * ==========================================
+   *
+   * // Google Apps Script Code (انسخه في Apps Script):
+   * function doPost(e) {
+   *   var sheet = SpreadsheetApp.getActiveSheet();
+   *   var data = JSON.parse(e.postData.contents);
+   *   sheet.appendRow([
+   *     new Date(),
+   *     data.name,
+   *     data.phone,
+   *     data.specialty,
+   *     data.regNumber
+   *   ]);
+   *   return ContentService
+   *     .createTextOutput(JSON.stringify({status:'success'}))
+   *     .setMimeType(ContentService.MimeType.JSON);
+   * }
+   * ==========================================
+   */
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbydxEf4aFkyvXmcxE2oYuZjON3bsTzVLbO79wtSdVd4LsKFn7gLIhHw0gJPzGVzzQpdZw/exec';
+
+  /* ===== COUNTDOWN ===== */
+  function getNextFriday() {
+    const now = new Date();
+    const day = now.getDay(); // 0=Sun … 5=Fri
+    const daysUntilFriday = (5 - day + 7) % 7 || 7;
+    const friday = new Date(now);
+    friday.setDate(now.getDate() + daysUntilFriday);
+    friday.setHours(9, 0, 0, 0); // يبدأ الساعة 9 صباحًا
+    return friday;
+  }
+
+  const TARGET = getNextFriday();
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = TARGET - now;
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent  = '00';
+      document.getElementById('cd-hours').textContent = '00';
+      document.getElementById('cd-mins').textContent  = '00';
+      document.getElementById('cd-secs').textContent  = '00';
+      return;
+    }
+    const days  = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins  = Math.floor((diff % 3600000)  / 60000);
+    const secs  = Math.floor((diff % 60000)    / 1000);
+    document.getElementById('cd-days').textContent  = String(days).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cd-mins').textContent  = String(mins).padStart(2,'0');
+    document.getElementById('cd-secs').textContent  = String(secs).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  /* ===== VALIDATION ===== */
+  function validate() {
+    let ok = true;
+
+    const name = document.getElementById('inp-name').value.trim();
+    const nameField = document.getElementById('field-name');
+    const words = name.split(/\s+/).filter(Boolean);
+    if (words.length < 4) { nameField.classList.add('error'); ok = false; }
+    else                   { nameField.classList.remove('error'); }
+
+    const phone = document.getElementById('inp-phone').value.trim();
+    const phoneField = document.getElementById('field-phone');
+    if (!/^01[0-9]{9}$/.test(phone)) { phoneField.classList.add('error'); ok = false; }
+    else                              { phoneField.classList.remove('error'); }
+
+    const spec = document.getElementById('inp-spec').value;
+    const specField = document.getElementById('field-spec');
+    if (!spec) { specField.classList.add('error'); ok = false; }
+    else       { specField.classList.remove('error'); }
+
+    return ok;
+  }
+
+  /* ===== RIPPLE EFFECT ===== */
+  function addRipple(btn, e) {
+    const rect = btn.getBoundingClientRect();
+    const r = document.createElement('span');
+    r.classList.add('ripple');
+    const size = Math.max(rect.width, rect.height);
+    r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px`;
+    btn.appendChild(r);
+    r.addEventListener('animationend', () => r.remove());
+  }
+
+  /* ===== SEND TO GOOGLE SHEETS ===== */
+  async function sendToSheets(payload) {
+    if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('YOUR_')) {
+      // وضع التجربة: طباعة البيانات في الكونسول فقط
+      console.log('📋 بيانات التسجيل (وضع التجربة):', payload);
+      await new Promise(r => setTimeout(r, 1200)); // محاكاة الانتظار
+      return { status: 'success' };
+    }
+
+    const response = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    return { status: 'success' };
+  }
+
+  /* ===== GENERATE REG NUMBER ===== */
+  function genRegNum() {
+    const ts = Date.now().toString().slice(-5);
+    const rand = Math.floor(Math.random() * 100).toString().padStart(2, '0');
+    return `KH-${ts}-${rand}`;
+  }
+
+  /* ===== HANDLE SUBMIT ===== */
+  async function handleSubmit(e) {
+    addRipple(document.getElementById('btn-submit'), e);
+
+    if (!validate()) return;
+
+    const btn = document.getElementById('btn-submit');
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    const payload = {
+      name:      document.getElementById('inp-name').value.trim(),
+      phone:     document.getElementById('inp-phone').value.trim(),
+      specialty: document.getElementById('inp-spec').value,
+      regNumber: genRegNum(),
+      timestamp: new Date().toLocaleString('ar-EG')
+    };
+
+    try {
+      await sendToSheets(payload);
+      document.getElementById('form-wrapper').style.display = 'none';
+      const sb = document.getElementById('success-box');
+      sb.classList.add('show');
+      document.getElementById('reg-num').textContent = `رقم تسجيلك: #${payload.regNumber}`;
+    } catch (err) {
+      alert('حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.');
+      console.error(err);
+    } finally {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  }
+
+  /* ===== RESET ===== */
+  function resetForm() {
+    document.getElementById('inp-name').value  = '';
+    document.getElementById('inp-phone').value = '';
+    document.getElementById('inp-spec').value  = '';
+    ['field-name','field-phone','field-spec'].forEach(id =>
+      document.getElementById(id).classList.remove('error'));
+    document.getElementById('success-box').classList.remove('show');
+    document.getElementById('form-wrapper').style.display = '';
+  }
+
+  /* ===== Live validation on blur ===== */
+  ['inp-name','inp-phone','inp-spec'].forEach(id => {
+    document.getElementById(id).addEventListener('blur', () => {
+      if (document.getElementById(id).value) validate();
+    });
+  });
+
+  /* phone: numbers only */
+  document.getElementById('inp-phone').addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g,'').slice(0,11);
+  });
+</script>
+</body>
+</html>
