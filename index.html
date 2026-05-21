@@ -239,16 +239,7 @@
   const TELEGRAM_CHAT_ID = '1929006452';
  
   /* ===== العداد التنازلي ===== */
-  function getNextFriday() {
-    const now = new Date();
-    const day = now.getDay();
-    const daysUntilFriday = (5 - day + 7) % 7 || 7;
-    const friday = new Date(now);
-    friday.setDate(now.getDate() + daysUntilFriday);
-    friday.setHours(9, 0, 0, 0);
-    return friday;
-  }
-  const TARGET = getNextFriday();
+  const TARGET = new Date('2025-06-13T09:00:00');
   function updateCountdown() {
     const diff = TARGET - new Date();
     if (diff <= 0) {
