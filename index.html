@@ -120,6 +120,17 @@
     footer { background:var(--blue-dark);color:rgba(255,255,255,0.65);text-align:center;padding:22px 20px;font-size:0.82rem; }
     footer strong { color:rgba(255,255,255,0.9); }
  
+    .spec-option {
+      display:flex;align-items:center;gap:8px;
+      padding:10px 14px;border:1.8px solid var(--gray-100);border-radius:var(--radius-sm);
+      font-size:0.88rem;font-weight:600;color:var(--blue-dark);
+      background:var(--off-white);cursor:pointer;transition:all 0.18s;
+      user-select:none;
+    }
+    .spec-option:hover { border-color:var(--blue-light);background:var(--white); }
+    .spec-option.selected { border-color:var(--blue-mid);background:#E8F4FF;color:var(--blue-mid); }
+    .spec-option.disabled { opacity:0.4;cursor:not-allowed;pointer-events:none; }
+    .spec-option input[type=checkbox] { display:none; }
     @keyframes fadeDown { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
     @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
   </style>
@@ -132,13 +143,8 @@
   <p class="sub">نقدم خدمات طبية مجانية في 13 تخصصًا — الجمعة القادمة. سجّل الآن واحجز دورك!</p>
   <div class="alert-banner"><span>⚠️</span> الأماكن محدودة — لا تفوّت الفرصة!</div>
   <div class="countdown-wrap">
-    <p>الوقت المتبقي على القافلة</p>
-    <div class="countdown">
-      <div class="cd-unit"><div class="cd-num" id="cd-days">--</div><div class="cd-label">أيام</div></div>
-      <div class="cd-unit"><div class="cd-num" id="cd-hours">--</div><div class="cd-label">ساعات</div></div>
-      <div class="cd-unit"><div class="cd-num" id="cd-mins">--</div><div class="cd-label">دقائق</div></div>
-      <div class="cd-unit"><div class="cd-num" id="cd-secs">--</div><div class="cd-label">ثواني</div></div>
-    </div>
+    <p>موعد القافلة</p>
+    <div style="font-size:2.2rem;font-weight:900;letter-spacing:2px;margin-top:6px;">📅 13 / 6 / 2026</div>
   </div>
 </header>
  
@@ -185,26 +191,24 @@
         <span class="field-err">يرجى إدخال رقم هاتف صحيح (11 رقمًا)</span>
       </div>
       <div class="field" id="field-spec">
-        <label for="inp-spec"><span class="req">*</span> التخصص الطبي</label>
-        <div class="select-wrap">
-          <select id="inp-spec">
-            <option value="">— اختر التخصص —</option>
-            <option value="باطنة">🫀 باطنة</option>
-            <option value="أطفال">👶 أطفال</option>
-            <option value="عظام">🦴 عظام</option>
-            <option value="جلدية">✨ جلدية</option>
-            <option value="أنف وأذن وحنجرة">👂 أنف وأذن وحنجرة</option>
-            <option value="رمد">👁️ رمد</option>
-            <option value="مخ وأعصاب">🧠 مخ وأعصاب</option>
-            <option value="قلب">❤️ قلب</option>
-            <option value="صدر">🫁 صدر</option>
-            <option value="أسنان">🦷 أسنان</option>
-            <option value="نسا وتوليد">🤰 نسا وتوليد</option>
-            <option value="مسالك بولية">💧 مسالك بولية</option>
-            <option value="علاج طبيعي">🏃 علاج طبيعي</option>
-          </select>
+        <label><span class="req">*</span> التخصص الطبي <span style="font-size:0.78rem;color:var(--gray-400);font-weight:400;">(اختر تخصص أو اتنين بحد أقصى)</span></label>
+        <div id="spec-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
+          <label class="spec-option" data-val="باطنة"><input type="checkbox" value="باطنة" onchange="handleSpecCheck(this)"> <span>🫀</span> باطنة</label>
+          <label class="spec-option" data-val="أطفال"><input type="checkbox" value="أطفال" onchange="handleSpecCheck(this)"> <span>👶</span> أطفال</label>
+          <label class="spec-option" data-val="عظام"><input type="checkbox" value="عظام" onchange="handleSpecCheck(this)"> <span>🦴</span> عظام</label>
+          <label class="spec-option" data-val="جلدية"><input type="checkbox" value="جلدية" onchange="handleSpecCheck(this)"> <span>✨</span> جلدية</label>
+          <label class="spec-option" data-val="أنف وأذن وحنجرة"><input type="checkbox" value="أنف وأذن وحنجرة" onchange="handleSpecCheck(this)"> <span>👂</span> أنف وأذن</label>
+          <label class="spec-option" data-val="رمد"><input type="checkbox" value="رمد" onchange="handleSpecCheck(this)"> <span>👁️</span> رمد</label>
+          <label class="spec-option" data-val="مخ وأعصاب"><input type="checkbox" value="مخ وأعصاب" onchange="handleSpecCheck(this)"> <span>🧠</span> مخ وأعصاب</label>
+          <label class="spec-option" data-val="قلب"><input type="checkbox" value="قلب" onchange="handleSpecCheck(this)"> <span>❤️</span> قلب</label>
+          <label class="spec-option" data-val="صدر"><input type="checkbox" value="صدر" onchange="handleSpecCheck(this)"> <span>🫁</span> صدر</label>
+          <label class="spec-option" data-val="أسنان"><input type="checkbox" value="أسنان" onchange="handleSpecCheck(this)"> <span>🦷</span> أسنان</label>
+          <label class="spec-option" data-val="نسا وتوليد"><input type="checkbox" value="نسا وتوليد" onchange="handleSpecCheck(this)"> <span>🤰</span> نسا وتوليد</label>
+          <label class="spec-option" data-val="مسالك بولية"><input type="checkbox" value="مسالك بولية" onchange="handleSpecCheck(this)"> <span>💧</span> مسالك بولية</label>
+          <label class="spec-option" data-val="علاج طبيعي"><input type="checkbox" value="علاج طبيعي" onchange="handleSpecCheck(this)"> <span>🏃</span> علاج طبيعي</label>
         </div>
-        <span class="field-err">يرجى اختيار التخصص الطبي</span>
+        <div id="spec-limit-msg" style="display:none;font-size:0.78rem;color:#E53935;font-weight:600;margin-top:6px;">⚠️ مينفعش تختار أكتر من تخصصين</div>
+        <span class="field-err" id="err-spec-msg">يرجى اختيار تخصص واحد على الأقل</span>
       </div>
       <button class="btn-submit" id="btn-submit" type="button" onclick="handleSubmit(event)">
         <span class="btn-text">✅ تسجيل الآن</span>
@@ -239,7 +243,7 @@
   const TELEGRAM_CHAT_ID = '1929006452';
  
   /* ===== العداد التنازلي ===== */
-  const TARGET = new Date('2025-06-13T09:00:00');
+  const TARGET = new Date('2026-06-13T09:00:00');
   function updateCountdown() {
     const diff = TARGET - new Date();
     if (diff <= 0) {
@@ -254,6 +258,37 @@
   updateCountdown();
   setInterval(updateCountdown, 1000);
  
+  /* ===== Specialty Checkboxes ===== */
+  function getCheckedSpecs() {
+    return Array.from(document.querySelectorAll('#spec-grid input[type=checkbox]:checked'))
+                .map(cb => cb.value);
+  }
+  function handleSpecCheck(cb) {
+    const checked = getCheckedSpecs();
+    const limitMsg = document.getElementById('spec-limit-msg');
+    if (checked.length > 2) {
+      cb.checked = false;
+      limitMsg.style.display = 'block';
+      setTimeout(() => limitMsg.style.display = 'none', 2500);
+      return;
+    }
+    // update visual state
+    document.querySelectorAll('.spec-option').forEach(lbl => {
+      const inp = lbl.querySelector('input');
+      lbl.classList.toggle('selected', inp.checked);
+    });
+    // disable unchecked if 2 selected
+    document.querySelectorAll('.spec-option').forEach(lbl => {
+      const inp = lbl.querySelector('input');
+      if (!inp.checked) {
+        lbl.classList.toggle('disabled', checked.length >= 2);
+      }
+    });
+    // clear error if something selected
+    if (getCheckedSpecs().length > 0)
+      document.getElementById('field-spec').classList.remove('error');
+  }
+ 
   /* ===== Validation ===== */
   function validate() {
     let ok = true;
@@ -267,9 +302,9 @@
     if (!/^01[0-9]{9}$/.test(phone)) { phoneField.classList.add('error'); ok = false; }
     else phoneField.classList.remove('error');
  
-    const spec = document.getElementById('inp-spec').value;
+    const checked = getCheckedSpecs();
     const specField = document.getElementById('field-spec');
-    if (!spec) { specField.classList.add('error'); ok = false; }
+    if (checked.length === 0) { specField.classList.add('error'); ok = false; }
     else specField.classList.remove('error');
  
     return ok;
@@ -297,7 +332,7 @@
       `👤 *الاسم:* ${payload.name}\n` +
       `📞 *الهاتف:* ${payload.phone}\n` +
       `🩺 *التخصص:* ${payload.specialty}\n` +
-      `🔢 *رقم التسجيل:* \`${payload.regNumber}\`\n` +
+      `🔢 *رقم التسجيل:* ${payload.regNumber}\n` +
       `🕐 *الوقت:* ${payload.timestamp}\n` +
       `━━━━━━━━━━━━━━━━━━\n` +
       `📊 إجمالي المسجلين: *${regCount}*`;
@@ -312,9 +347,9 @@
  
   /* ===== رقم تسجيل فريد ===== */
   function genRegNum() {
-    const ts = Date.now().toString().slice(-5);
-    const rand = Math.floor(Math.random()*100).toString().padStart(2,'0');
-    return `KH-${ts}-${rand}`;
+    const prev = parseInt(localStorage.getItem('reg_counter') || '0') + 1;
+    localStorage.setItem('reg_counter', prev);
+    return prev;
   }
  
   /* ===== Submit ===== */
@@ -329,7 +364,7 @@
     const payload = {
       name:      document.getElementById('inp-name').value.trim(),
       phone:     document.getElementById('inp-phone').value.trim(),
-      specialty: document.getElementById('inp-spec').value,
+      specialty: getCheckedSpecs().join(' + '),
       regNumber: genRegNum(),
       timestamp: new Date().toLocaleString('ar-EG')
     };
@@ -352,7 +387,8 @@
   function resetForm() {
     document.getElementById('inp-name').value = '';
     document.getElementById('inp-phone').value = '';
-    document.getElementById('inp-spec').value = '';
+    document.querySelectorAll('#spec-grid input[type=checkbox]').forEach(cb => cb.checked = false);
+    document.querySelectorAll('.spec-option').forEach(lbl => lbl.classList.remove('selected','disabled'));
     ['field-name','field-phone','field-spec'].forEach(id =>
       document.getElementById(id).classList.remove('error'));
     document.getElementById('success-box').classList.remove('show');
